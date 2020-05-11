@@ -148,7 +148,7 @@ class Graph:
                     if destination_vertex in dirCache:
                         return dirCache[destination_vertex]
 
-    def dfs_recursive(self, starting_vertex, destination_vertex):
+    def dfs_recursive(self, starting_vertex, destination_vertex, dirCache={}):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -156,7 +156,23 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        if starting_vertex not in dirCache:
+            dirCache[starting_vertex] = [starting_vertex]
+
+        neighbors = self.get_neighbors(starting_vertex)
+        if len(neighbors) > 0:
+            for n in neighbors:
+                if n not in dirCache:
+                    dirCache[n] = dirCache[starting_vertex] + [n]
+
+                    if n == destination_vertex:
+                        return dirCache[n]
+                    else:
+                        chain = self.dfs_recursive(n, destination_vertex, dirCache)
+                        if chain is not None:
+                            return chain
+
+        
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
