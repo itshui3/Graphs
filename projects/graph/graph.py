@@ -103,7 +103,26 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        dirCache = {}
+
+        dirCache[starting_vertex] = []
+        dirCache[starting_vertex].append(starting_vertex)
+
+        q = Queue()
+        q.enqueue(starting_vertex)
+
+        while q.size() > 0:
+            cur_vert = q.dequeue()
+
+            neighbors = self.get_neighbors(cur_vert)
+
+            for n in neighbors:
+                if n not in dirCache:
+                    dirCache[n] = dirCache[cur_vert] + [n] # might not concat like so
+                    if destination_vertex in dirCache:
+                        return dirCache[destination_vertex]
+                    q.enqueue(n)
+                
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -111,7 +130,23 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        dirCache = {}
+        dirCache[starting_vertex] = []
+        dirCache[starting_vertex].append(starting_vertex)
+
+        s = Stack()
+        s.push(starting_vertex)
+
+        while s.size() > 0:
+            cur_vert = s.pop()
+            neighbors = self.get_neighbors(cur_vert)
+
+            for n in neighbors:
+                if n not in dirCache:
+                    s.push(n)
+                    dirCache[n] = dirCache[cur_vert] + [n]
+                    if destination_vertex in dirCache:
+                        return dirCache[destination_vertex]
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
         """
