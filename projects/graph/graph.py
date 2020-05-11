@@ -7,39 +7,78 @@ class Graph:
 
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
+
         self.vertices = {}
 
     def add_vertex(self, vertex_id):
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+
+        self.vertices[vertex_id] = set()
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+
+        self.vertices[v1].add(v2)
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+
+        return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
+        # If I begin by enqueue'ing starting_vertex and write a while loop that doesn't end until all queued elements have become resolved, I can procedurally modify visited vertexes(printed vertexes) to be unvisitable
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+
+        searchQ = Queue()
+        QCache = {} # Used to delineate between values that can  still be added to queue and those that have already been added
+
+        searchQ.enqueue(starting_vertex)
+        QCache[starting_vertex] = 1
+
+        while searchQ.size() > 0:
+
+            # I need to add neighbors to Q
+            # Print the current vertex as well as dequeue it
+            removedVert = searchQ.dequeue()
+            print(removedVert)
+
+            neighbors = self.get_neighbors(removedVert)
+            if len(neighbors) > 0:
+                for vert in neighbors:
+                    if vert not in QCache:
+                        searchQ.enqueue(vert)
+                        QCache[vert] = 1
 
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        S = Stack()
+        SQache = {}
+
+        S.push(starting_vertex)
+        SQache[starting_vertex] = 1
+
+        while S.size() > 0:
+            removedVert = S.pop()
+            print(removedVert)
+
+            neighbors = self.get_neighbors(removedVert)
+            if len(neighbors) > 0:
+                for vert in neighbors:
+                    if vert not in SQache:
+                        S.push(vert)
+                        SQache[vert] = 1
 
     def dft_recursive(self, starting_vertex):
         """
