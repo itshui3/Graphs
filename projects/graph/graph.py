@@ -80,14 +80,22 @@ class Graph:
                         S.push(vert)
                         SQache[vert] = 1
 
-    def dft_recursive(self, starting_vertex):
+    def dft_recursive(self, starting_vertex, cache={}):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
 
         This should be done using recursion.
         """
-        pass  # TODO
+        print(starting_vertex)
+        cache[starting_vertex] = 1
+
+        neighbors = self.get_neighbors(starting_vertex)
+
+        if len(neighbors) > 0:
+            for vert in neighbors:
+                if vert not in cache:
+                    self.dft_recursive(vert, cache)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
