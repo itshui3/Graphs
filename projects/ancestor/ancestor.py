@@ -67,26 +67,40 @@ def earliest_ancestor(ancestors, starting_node):
         return -1
 
     Q = Queue()
-    Q.enqueue(starting_node)
+    Q.enqueue((starting_node, 0))
     visited = set()
 
-    bastard = None
+    earlyAncestors = []
 
     while Q.size() > 0:
 
-        adoptee = Q.dequeue()
+        adoptee, level = Q.dequeue()
+        print(adoptee, level)
         visited.add(adoptee)
 
         parents = ancestorGraph.get_neighbors(adoptee)
 
         if len(parents) < 1:
-            bastard = adoptee
+            earlyAncestors.append((adoptee, level))
 
         for p in parents:
             if p not in visited:
-                Q.enqueue(p)
+                Q.enqueue((p, level + 1))
+
+    earliest = None
+
+    for e in earlyAncestors:
+        # if equal level, add lower index ancestor
+        if earliest == None:
+            earliest = e
+        
+        if earliest[1] < e[1]: # level comparison
+            earliest = e
+        elif earliest[1] == e[1]:
+            if earliest[0] > e[0]:
+                earliest = e
     
-    return bastard
+    return earliest[0]
 
 test_ancestors = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7), (4, 5), (4, 8), (8, 9), (11, 8), (10, 1), (3, 10)]
 print(earliest_ancestor(test_ancestors, 1))
