@@ -1,3 +1,5 @@
+from random import shuffle
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -38,6 +40,8 @@ class SocialGraph:
 
         The number of users must be greater than the average number of friendships.
         """
+        if num_users < avg_friendships:
+            return -1
         # Reset graph
         self.last_id = 0
         self.users = {}
@@ -45,8 +49,30 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
-
+        for i in range(num_users):
+            self.add_user('Auto-Generated User')
         # Create friendships
+        howMany = num_users * avg_friendships // 2
+        friendshipSet = set()
+
+        for person in self.users:
+            for friend in self.users:
+                if friend != person and (friend, person) not in friendshipSet:
+                    friendshipSet.add((person, friend))
+
+        possibleFriendships = []
+        for friendTup in friendshipSet:
+            possibleFriendships.append(friendTup)
+        shuffle(possibleFriendships)
+
+        connectThese = possibleFriendships[:howMany]
+
+        for cT in connectThese:
+            self.add_friendship(cT[0], cT[1])
+        
+        print('users', self.users)
+        print('friendships', self.friendships)
+        
 
     def get_all_social_paths(self, user_id):
         """
