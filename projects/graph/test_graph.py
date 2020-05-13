@@ -36,6 +36,7 @@ class Test(unittest.TestCase):
           6: {3},
           7: {1, 6}
         }
+
         self.assertDictEqual(self.graph.vertices, vertices)
 
     def test_bft(self):

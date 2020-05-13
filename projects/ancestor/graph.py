@@ -23,6 +23,9 @@ class Graph:
         """
 
         self.vertices[v1].add(v2)
+    
+    def get_nodes(self):
+        return self.vertices
 
     def get_neighbors(self, vertex_id):
         """
@@ -30,9 +33,6 @@ class Graph:
         """
 
         return self.vertices[vertex_id]
-    
-    def get_nodes(self):
-        return self.vertices
 
     def bft(self, starting_vertex):
         # If I begin by enqueue'ing starting_vertex and write a while loop that doesn't end until all queued elements have become resolved, I can procedurally modify visited vertexes(printed vertexes) to be unvisitable
